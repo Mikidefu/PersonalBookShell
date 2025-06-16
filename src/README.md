@@ -83,6 +83,9 @@ Ngrok will provide you with a public URL, like:
     https://random-id.ngrok.io
 
 ### 4. Configure the Flutter Mobile App
+
+link to the appMobile repo: https://github.com/Mikidefu/isbn_reader/tree/main/isbn_reader/lib
+
    Open the file:
 
     lib/main.dart
