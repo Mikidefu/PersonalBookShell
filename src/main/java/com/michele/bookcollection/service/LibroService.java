@@ -137,7 +137,7 @@ public class LibroService {
                 stato = StatoLettura.DA_LEGGERE;
             }
 
-            // Crea l’oggetto Libro (usa il costruttore esistente)
+            // Crea l’oggetto Libro
             Libro nuovo = new Libro(
                     dto.getTitolo(),
                     dto.getAutori(),
@@ -163,7 +163,6 @@ public class LibroService {
         File dest = new File(backupDir, "backup_" + timestamp + ".json");
 
         // Chiamiamo internamente il metodo di esportazione
-        // (magari esiste già in questo service: esportaInJson(File, List<Libro>))
         List<Libro> tutti = getLibri(); // recupera la lista attuale
         esportaInJson(dest, tutti);
     }
@@ -180,7 +179,7 @@ public class LibroService {
         File dest = new File(backupDir, "backup_" + timestamp + ".csv");
 
         List<Libro> tutti = getLibri();
-        esportaInCsv(dest, tutti); // serve implementare questo metodo simile a onEsportaCsv
+        esportaInCsv(dest, tutti);
     }
 
     /**
@@ -227,7 +226,7 @@ public class LibroService {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(file), StandardCharsets.UTF_8))) {
 
-            // 1) Leggi e scarta la riga di intestazione
+            // 1) Leggiamo e scarttiamo la riga di intestazione
             String header = reader.readLine();
 
             String line;
@@ -239,7 +238,7 @@ public class LibroService {
                     continue;
                 }
 
-                // 3) Ripulisci (unescape) ogni campo
+                // 3) Ripuliamo (unescape) ogni campo
                 String titolo = unescapeCSV(parts[0]);
                 List<String> autori = List.of(unescapeCSV(parts[1]).split(";"));
                 String isbn = unescapeCSV(parts[2]);
@@ -258,14 +257,14 @@ public class LibroService {
                     stato = StatoLettura.DA_LEGGERE;
                 }
 
-                // 4) Controlla duplicato in repo (basato su ISBN)
+                // 4) Controlliamo duplicato in repo (ISBN)
                 boolean giaPresente = repo.getTuttiLibri().stream()
                         .anyMatch(l -> l.getISBN().equalsIgnoreCase(isbn));
                 if (giaPresente) {
                     continue;
                 }
 
-                // 5) Crea e salva il nuovo Libro
+                // 5) Creiamo e salviamo il nuovo Libro
                 Libro nuovo = new Libro(
                         titolo,
                         autori,

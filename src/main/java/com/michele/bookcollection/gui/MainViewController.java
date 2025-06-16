@@ -22,9 +22,6 @@ import javax.websocket.*;
 
 import java.io.*;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -72,7 +69,7 @@ public class MainViewController {
         // 4) “Leghiamo” il comparatore di sortedData a quello della TableView
         sortedData.comparatorProperty().bind(tabellaLibri.comparatorProperty());
 
-        // 5) Imposto la TableView per usare sortedData (non libriData direttamente)
+        // 5) Imposto la TableView per usare sortedData
         tabellaLibri.setItems(sortedData);
 
         // ---------- Configurazione colonne ----------
@@ -89,7 +86,7 @@ public class MainViewController {
                 c.getValue().getStatoLettura().toString()
         ));
 
-        // Comparatori custom (opzionali)
+        // Comparatori custom
         colTitolo.setComparator(String.CASE_INSENSITIVE_ORDER);
         colISBN.setComparator(String.CASE_INSENSITIVE_ORDER);
         colGeneri.setComparator((g1, g2) -> {
@@ -148,7 +145,6 @@ public class MainViewController {
                 libroService.backupJsonAutomatico();
                 // oppure → libroService.backupCsvAutomatico();
             } catch (IOException e) {
-                // In una vera app dovresti loggare l’errore:
                 System.err.println("Backup automatico fallito: " + e.getMessage());
             }
         }, 15, 15, TimeUnit.MINUTES);
@@ -285,7 +281,7 @@ public class MainViewController {
     }
 
     // ------------------------------------------
-    // IMPORT/EXPORT JSON (RESTANO COME PRIMA)
+    // IMPORT/EXPORT JSON
     // ------------------------------------------
 
     @FXML
@@ -389,7 +385,7 @@ public class MainViewController {
                 // Chiamo il metodo service che legge il CSV e salva in repository
                 libroService.importaDaCsv(file);
 
-                // Poi rifresco la tabella dai dati del repository
+                // Poi refresho la tabella dai dati del repository
                 refreshLibri();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -474,11 +470,11 @@ public class MainViewController {
             Scene scenaStatistiche = new Scene(root, 800, 600);
             stage.setScene(scenaStatistiche);
 
-            // 2) (Opzionale) Imposto una dimensione minima
+            // 2) Imposto una dimensione minima
             stage.setMinWidth(600);
             stage.setMinHeight(400);
 
-            // 3) (Opzionale) Disabilito il ridimensionamento
+            // 3) (Volendo) Disabilito il ridimensionamento
             // stage.setResizable(false);
 
             stage.show();
@@ -487,6 +483,11 @@ public class MainViewController {
             showWarning("Impossibile aprire la finestra Statistiche.");
         }
     }
+
+    //      -----------
+    //      WEBSOCKET
+    //      -----------
+
 
     private void inizializzaWebSocket() {
         try {

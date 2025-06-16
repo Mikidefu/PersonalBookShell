@@ -132,7 +132,7 @@
     -fx-cursor: hand;
 }
 
-/* Tooltip (opzionale elegante) */
+/* Tooltip */
 .tooltip {
     -fx-background-color: #f5e8d0;
     -fx-text-fill: #4b3b2b;

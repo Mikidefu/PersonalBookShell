@@ -17,7 +17,7 @@ public class BookWebSocketHandler {
     private static final ScheduledExecutorService pingScheduler = Executors.newSingleThreadScheduledExecutor();
 
     static {
-        // Ogni 30 secondi, invia ping a tutte le sessioni aperte
+        // Ogni 30 secondi, invia ping a tutte le sessioni aperte, per non spegnere il WebSocket
         pingScheduler.scheduleAtFixedRate(() -> {
             for (Session session : sessions) {
                 if (session.isOpen()) {
@@ -60,6 +60,7 @@ public class BookWebSocketHandler {
         }
     }
 
+    //Per refreshare la lista pedissequamente all'aggiunta di un libro da app mobile.
     public static void broadcastRefresh() {
         sessions.forEach(s -> {
             try {

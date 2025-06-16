@@ -23,7 +23,7 @@ public class BookServer {
     public static void main(String[] args) {
         port(8080);
 
-        // 🔌 Registra WebSocket
+        // Registrazione WebSocket
         webSocket("/ws", BookWebSocketHandler.class);
         init();
 

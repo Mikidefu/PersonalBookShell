@@ -18,7 +18,7 @@ public class LibroRepositoryPostgres implements LibroRepository {
         try (Connection c = DriverManager.getConnection(url, user, password);
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, libro.getTitolo());
-            // usa array PostgreSQL per autori e generi
+            // usiamo array PostgreSQL per autori e generi
             Array autoriArray = c.createArrayOf("text", libro.getAutori().toArray(new String[0]));
             Array generiArray = c.createArrayOf("text", libro.getGeneri().toArray(new String[0]));
             ps.setArray(2, autoriArray);
@@ -40,7 +40,7 @@ public class LibroRepositoryPostgres implements LibroRepository {
              Statement st = c.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                // estrai array SQL e converte in List<String>
+                // estraiamo array SQL e convertiamo in List<String>
                 Array autoriSql = rs.getArray("autori");
                 List<String> autori = List.of((String[]) autoriSql.getArray());
                 Array generiSql = rs.getArray("generi");

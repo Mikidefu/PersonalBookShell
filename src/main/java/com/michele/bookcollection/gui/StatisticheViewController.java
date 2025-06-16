@@ -20,15 +20,17 @@ public class StatisticheViewController {
     @FXML private Label lblTotale;
     @FXML private Label lblValMedia;
 
+    //campi per Genere
     @FXML private TableView<GenereCount> tblGenere;
     @FXML private TableColumn<GenereCount, String> colGenere;
     @FXML private TableColumn<GenereCount, Long> colCountGenere;
 
+    //campi per Stato
     @FXML private TableView<StatoCount> tblStato;
     @FXML private TableColumn<StatoCount, String> colStato;
     @FXML private TableColumn<StatoCount, Long> colCountStato;
 
-    // NUOVI campi per Autore
+    //campi per Autore
     @FXML private TableView<AutoreCount> tblAutore;
     @FXML private TableColumn<AutoreCount, String> colAutoreStat;
     @FXML private TableColumn<AutoreCount, Long> colCountAutore;
@@ -69,8 +71,7 @@ public class StatisticheViewController {
     }
 
     /**
-     * Popola tutte le parti di UI con i dati di riepilogo,
-     * includendo ora anche "Libri per Autore".
+     * Popola tutte le parti di UI con i dati di riepilogo.
      */
     public void loadStatistics() {
         // 1) Totale libri e valutazione media
@@ -91,7 +92,7 @@ public class StatisticheViewController {
         mapStato.forEach((st, cnt) -> listaStati.add(new StatoCount(st, cnt)));
         tblStato.setItems(listaStati);
 
-        // 4) NUOVA TABELLA: Libri per Autore
+        // 4) Libri per Autore
         Map<String, Long> mapAutore = libroService.getConteggioPerAutore();
         ObservableList<AutoreCount> listaAutori = FXCollections.observableArrayList();
         mapAutore.forEach((a, cnt) -> listaAutori.add(new AutoreCount(a, cnt)));
