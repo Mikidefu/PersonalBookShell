@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.michele.bookcollection.gui.MainViewController"
+            stylesheets="@../css/Styles.css">
+
+    <!-- MENU BAR -->
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="File">
+                    <MenuItem onAction="#onApriStatistiche">
+                        <graphic><FontIcon iconLiteral="fas-chart-bar" styleClass="font-icon"/></graphic>
+                        <text>Statistiche generali</text>
+                    </MenuItem>
+
+                    <SeparatorMenuItem/>
+
+                    <Menu text="Backup manuale">
+                        <MenuItem onAction="#onBackupManualeJson">
+                            <graphic><FontIcon iconLiteral="fas-save" styleClass="font-icon"/></graphic>
+                            <text>Backup JSON</text>
+                        </MenuItem>
+                        <MenuItem onAction="#onBackupManualeCsv" styleClass="font-icon">
+                            <graphic><FontIcon iconLiteral="fas-save" styleClass="font-icon"/></graphic>
+                            <text>Backup CSV</text>
+                        </MenuItem>
+                    </Menu>
+
+                    <SeparatorMenuItem/>
+
+                    <Menu text="Esporta">
+                        <MenuItem onAction="#onEsportaJson">
+                            <graphic><FontIcon iconLiteral="fas-file-export" styleClass="font-icon"/></graphic>
+                            <text>Esporta come JSON</text>
+                        </MenuItem>
+                        <MenuItem onAction="#onEsportaCsv">
+                            <graphic><FontIcon iconLiteral="fas-file-export" styleClass="font-icon"/></graphic>
+                            <text>Esporta come CSV</text>
+                        </MenuItem>
+                    </Menu>
+
+                    <Menu text="Importa">
+                        <MenuItem onAction="#onImportaJson">
+                            <graphic><FontIcon iconLiteral="fas-file-import" styleClass="font-icon"/></graphic>
+                            <text>Importa da JSON</text>
+                        </MenuItem>
+                        <MenuItem onAction="#onImportaCsv">
+                            <graphic><FontIcon iconLiteral="fas-file-import" styleClass="font-icon"/></graphic>
+                            <text>Importa da CSV</text>
+                        </MenuItem>
+                    </Menu>
+
+                    <SeparatorMenuItem/>
+
+                    <MenuItem onAction="#onExit">
+                        <graphic><FontIcon iconLiteral="fas-sign-out-alt" styleClass="font-icon"/></graphic>
+                        <text>Esci</text>
+                    </MenuItem>
+                </Menu>
+            </MenuBar>
+
+            <!-- Filtri -->
+            <HBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="Cerca per Titolo o Autore:"/>
+                <TextField fx:id="searchField" promptText="Inserisci testo..." HBox.hgrow="ALWAYS"/>
+
+                <Label text="Filtra per Genere:"/>
+                <ComboBox fx:id="filterGenere" prefWidth="120"/>
+
+                <Label text="Filtra per Stato Lettura:"/>
+                <ComboBox fx:id="filterStatoLettura" prefWidth="120"/>
+
+                <Label text="Valutazione Minima:"/>
+                <Slider fx:id="filterValutazioneMin"
+                        prefWidth="100"
+                        min="0" max="5" majorTickUnit="1"
+                        snapToTicks="true" showTickLabels="true" showTickMarks="true"
+                        blockIncrement="1"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Tabella centrale -->
+    <center>
+        <TableView fx:id="tabellaLibri" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <columns>
+                <TableColumn text="Titolo" fx:id="colTitolo"/>
+                <TableColumn text="Autori" fx:id="colAutore"/>
+                <TableColumn text="ISBN" fx:id="colISBN"/>
+                <TableColumn text="Generi" fx:id="colGeneri"/>
+                <TableColumn text="Valutazione" fx:id="colValutazione"/>
+                <TableColumn text="Stato Lettura" fx:id="colStatoLettura"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Bottoni con icone -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button onAction="#onModifica">
+                <graphic>
+                    <FontIcon iconLiteral="fas-pen" styleClass="font-icon"/>
+                </graphic>
+                <text>Modifica</text>
+            </Button>
+
+            <Button onAction="#onElimina">
+                <graphic>
+                    <FontIcon iconLiteral="fas-trash" styleClass="font-icon"/>
+                </graphic>
+                <text>Elimina</text>
+            </Button>
+
+            <Button onAction="#apriFormLibro">
+                <graphic>
+                    <FontIcon iconLiteral="fas-plus" styleClass="font-icon"/>
+                </graphic>
+                <text>Aggiungi</text>
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>

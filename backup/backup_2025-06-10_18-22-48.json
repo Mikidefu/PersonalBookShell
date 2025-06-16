@@ -1,0 +1,39 @@
+[
+  {
+    "titolo": "Solo leveling 4",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822625649",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Solo leveling 3",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822624147",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Harry Potter e la pietra Filosofale",
+    "autori": [
+      "J. K. Rowling"
+    ],
+    "isbn": "9780747532699",
+    "generi": [
+      "Fiction",
+      "Adventure"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  }
+]

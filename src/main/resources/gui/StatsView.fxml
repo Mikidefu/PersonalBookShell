@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- Root principale VBox -->
+<VBox xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.michele.bookcollection.gui.StatisticheViewController"
+      spacing="15"
+      stylesheets="@../css/Styles.css">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- Sezione in alto con riepilogo -->
+    <HBox spacing="20">
+        <padding>
+            <Insets top="5" right="5" bottom="5" left="5"/>
+        </padding>
+        <Label fx:id="lblTotale" text="Totale libri: "/>              <!-- Totale libri -->
+        <Label fx:id="lblValMedia" text="Valutazione media: "/>       <!-- Valutazione media -->
+    </HBox>
+
+    <!-- Tabelle affiancate per Genere, Stato e Autore -->
+    <HBox spacing="20">
+        <padding>
+            <Insets top="5" right="5" bottom="5" left="5"/>
+        </padding>
+
+        <!-- Tabella Genere -->
+        <VBox spacing="5">
+            <Label text="Libri per Genere:" style="-fx-font-weight: bold;"/>
+            <TableView fx:id="tblGenere">
+                <columns>
+                    <TableColumn text="Genere" fx:id="colGenere" prefWidth="120"/>
+                    <TableColumn text="Conteggio" fx:id="colCountGenere" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Tabella Stato Lettura -->
+        <VBox spacing="5">
+            <Label text="Libri per Stato:" style="-fx-font-weight: bold;"/>
+            <TableView fx:id="tblStato">
+                <columns>
+                    <TableColumn text="Stato" fx:id="colStato" prefWidth="120"/>
+                    <TableColumn text="Conteggio" fx:id="colCountStato" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Tabella Autore -->
+        <VBox spacing="5">
+            <Label text="Libri per Autore:" style="-fx-font-weight: bold;"/>
+            <TableView fx:id="tblAutore">
+                <columns>
+                    <TableColumn text="Autore" fx:id="colAutoreStat" prefWidth="120"/>
+                    <TableColumn text="Conteggio" fx:id="colCountAutore" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
+
+    <!-- BarChart per la distribuzione delle valutazioni -->
+    <VBox spacing="5">
+        <Label text="Distribuzione Valutazioni:" style="-fx-font-weight: bold;"/>
+        <BarChart fx:id="barChartValutazioni"
+                  title="Valutazioni"
+                  animated="false"
+                  legendVisible="false">
+            <xAxis>
+                <CategoryAxis fx:id="xAxisVal" label="Valutazione"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxisCount" label="Numero libri"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+</VBox>

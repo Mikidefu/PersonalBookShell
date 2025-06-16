@@ -1,0 +1,209 @@
+[
+  {
+    "titolo": "Il libro dei giochi. Mille divertentissime idee per giocare insieme in vacanza, in gruppo e all\u0027aria aperta",
+    "autori": [
+      "Marsilio Parolini"
+    ],
+    "isbn": "9788838414886",
+    "generi": [
+      "Crafts \u0026 Hobbies"
+    ],
+    "valutazione": 2,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "Solo leveling 1",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822622402",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 4,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "Solo leveling 2",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822623058",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Solo leveling 3",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822624147",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 5,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "Solo leveling 4",
+    "autori": [
+      "Chugong"
+    ],
+    "isbn": "9788822625649",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 2,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Frankenstein",
+    "autori": [
+      "Mary Shelley"
+    ],
+    "isbn": "9780582541542",
+    "generi": [
+      "Romanzo",
+      "Horror"
+    ],
+    "valutazione": 4,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Lezioni di chimica",
+    "autori": [
+      "Bonnie Garmus"
+    ],
+    "isbn": "9788817158176",
+    "generi": [
+      "Fiction"
+    ],
+    "valutazione": 3,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Siddartha",
+    "autori": [
+      "Hermann Hesse"
+    ],
+    "isbn": "9788845901843",
+    "generi": [
+      "Romanzo"
+    ],
+    "valutazione": 5,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "The promised Neverland 1",
+    "autori": [
+      "Kaiu Shirai",
+      "Posuka Demizu"
+    ],
+    "isbn": "9788832752823",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 4,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Il signore degli anelli",
+    "autori": [
+      "Tolkien"
+    ],
+    "isbn": "9780395647387",
+    "generi": [
+      "Avventura",
+      "Fantasy"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Il nome della rosa",
+    "autori": [
+      "Umberto Eco"
+    ],
+    "isbn": "9780099466031",
+    "generi": [
+      "Narrativa"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Pollyanna",
+    "autori": [
+      "Eleanor H. Porter"
+    ],
+    "isbn": "9788415943174",
+    "generi": [
+      "Romanzo"
+    ],
+    "valutazione": 3,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Magia la scienza assoluta",
+    "autori": [
+      "Villanova"
+    ],
+    "isbn": "9788879380874",
+    "generi": [
+      "Esoterismo"
+    ],
+    "valutazione": 5,
+    "statoLettura": "IN_LETTURA"
+  },
+  {
+    "titolo": "Prova OK",
+    "autori": [
+      "Mario Rossi"
+    ],
+    "isbn": "9781234567891",
+    "generi": [
+      "Fantasy"
+    ],
+    "valutazione": 2,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "Test",
+    "autori": [
+      "Autore A"
+    ],
+    "isbn": "1234567890",
+    "generi": [
+      "Avventura"
+    ],
+    "valutazione": 1,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "One piece. New edition",
+    "autori": [
+      "Eiichiro Oda"
+    ],
+    "isbn": "9788864202105",
+    "generi": [
+      "Comics \u0026 Graphic Novels"
+    ],
+    "valutazione": 1,
+    "statoLettura": "DA_LEGGERE"
+  },
+  {
+    "titolo": "Lo straordinario viaggio di Edward Tulane",
+    "autori": [
+      "Kate DiCamillo"
+    ],
+    "isbn": "9788809911918",
+    "generi": [
+      "Romanzo"
+    ],
+    "valutazione": 5,
+    "statoLettura": "DA_LEGGERE"
+  }
+]

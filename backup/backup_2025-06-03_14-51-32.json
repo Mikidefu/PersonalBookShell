@@ -1,0 +1,39 @@
+[
+  {
+    "titolo": "Il signore degli anelli",
+    "autori": [
+      "Tolkien"
+    ],
+    "isbn": "9780395647387",
+    "generi": [
+      "Avventura",
+      "Fantasy"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Il nome della rosa",
+    "autori": [
+      "Umberto Eco"
+    ],
+    "isbn": "9780099466031",
+    "generi": [
+      "Narrativa"
+    ],
+    "valutazione": 5,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Magia la scienza assoluta",
+    "autori": [
+      "Villanova"
+    ],
+    "isbn": "9788879380874",
+    "generi": [
+      "Esoterismo"
+    ],
+    "valutazione": 4,
+    "statoLettura": "IN_LETTURA"
+  }
+]

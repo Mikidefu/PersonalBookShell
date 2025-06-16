@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- Root principale come ScrollPane -->
+<ScrollPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.michele.bookcollection.gui.LibroFormController"
+            fitToWidth="true"
+            prefViewportWidth="600"
+            prefViewportHeight="400"
+            stylesheets="@../css/Styles.css">
+
+    <!-- Contenuto interno come VBox -->
+    <content>
+        <VBox spacing="10" fillWidth="true">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Inserisci/Modifica Libro" style="-fx-font-size: 18px;"/>
+
+            <TextField fx:id="titoloField" promptText="Titolo"/>
+
+            <TextField fx:id="isbnField" promptText="ISBN"/>
+
+            <Label text="Autori:"/>
+            <FlowPane fx:id="autoriPane" hgap="5" vgap="5"/>
+
+            <HBox spacing="5">
+                <TextField fx:id="nuovoAutoreField"
+                           promptText="Aggiungi autore"
+                           onAction="#onAggiungiAutore"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="+" onAction="#onAggiungiAutore"/>
+            </HBox>
+
+            <Label text="Generi:"/>
+            <FlowPane fx:id="generiPane" hgap="5" vgap="5"/>
+
+            <HBox spacing="5">
+                <TextField fx:id="nuovoGenereField"
+                           promptText="Aggiungi genere"
+                           onAction="#onAggiungiGenere"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="+" onAction="#onAggiungiGenere"/>
+            </HBox>
+
+            <Label text="Valutazione:"/>
+            <Spinner fx:id="valutazioneSpinner"/>
+
+            <Label text="Stato lettura:"/>
+            <ComboBox fx:id="statoLetturaComboBox" promptText="Stato lettura"/>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Salva" onAction="#handleSalva"/>
+                <Button text="Annulla" onAction="#handleAnnulla"/>
+            </HBox>
+        </VBox>
+    </content>
+</ScrollPane>

@@ -1,0 +1,40 @@
+[
+  {
+    "titolo": "Magia la scienza assoluta",
+    "autori": [
+      "Villanova"
+    ],
+    "isbn": "9788879380874",
+    "generi": [
+      "Esoterismo"
+    ],
+    "valutazione": 4,
+    "statoLettura": "IN_LETTURA"
+  },
+  {
+    "titolo": "Il nome della rosa",
+    "autori": [
+      "Umberto Eco"
+    ],
+    "isbn": "9780099466031",
+    "generi": [
+      "Giallo",
+      "Narrativa"
+    ],
+    "valutazione": 4,
+    "statoLettura": "LETTO"
+  },
+  {
+    "titolo": "Harry Potter e la camera dei segreti",
+    "autori": [
+      "J.K. Rowling"
+    ],
+    "isbn": "9788869185182",
+    "generi": [
+      "Fantasy",
+      "Avventura"
+    ],
+    "valutazione": 4,
+    "statoLettura": "LETTO"
+  }
+]

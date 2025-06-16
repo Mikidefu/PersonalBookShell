@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+/* Sfondo generale */
+.root {
+    -fx-background-color: #faf7f0;
+    -fx-padding: 20px;
+    -fx-font-family: 'Merriweather', serif;
+}
+
+/* Label principale */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #4b3b2b;
+}
+
+/* Tag pill: autore, genere, ecc. */
+.tag-pill {
+    -fx-background-color: #d6cbb8;
+    -fx-background-radius: 20px;
+    -fx-padding: 6px 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 2, 0, 0, 1);
+    -fx-cursor: default;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+    -fx-transition: all 0.25s ease-in-out;
+}
+
+.tag-pill:hover {
+    -fx-background-color: #c1b598;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 1);
+}
+
+.tag-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5a4d3b;
+    -fx-font-weight: 600;
+}
+
+/* Pulsante di chiusura della pill */
+.tag-close {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7d6f59;
+    -fx-background-color: transparent;
+    -fx-padding: 0 6px;
+    -fx-cursor: hand;
+    -fx-transition: color 0.3s ease;
+}
+
+.tag-close:hover {
+    -fx-text-fill: #b8392b;
+}
+
+/* Bottoni eleganti */
+.button {
+    -fx-background-color: #a17c52;
+    -fx-text-fill: #f0e6d2;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-font-weight: 600;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 2, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.3s ease, scale 0.2s ease;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.button:hover {
+    -fx-background-color: #8c6b44;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.button:focused {
+    -fx-border-color: #d18c3a;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(209,140,58,0.6), 6, 0, 0, 0);
+}
+
+/* ComboBox */
+.combo-box {
+    -fx-border-color: #b3a58a;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-background-color: #f5f1e6;
+    -fx-padding: 6px 10px;
+    -fx-cursor: hand;
+    -fx-transition: border-color 0.3s ease;
+}
+
+.combo-box:focused {
+    -fx-border-color: #d18c3a;
+    -fx-effect: dropshadow(gaussian, rgba(209,140,58,0.4), 4, 0, 0, 0);
+}
+
+/* TableView leggibile e armonica */
+.table-view {
+    -fx-border-color: #c9bca3;
+    -fx-border-width: 1.5px;
+    -fx-background-color: #fefcf8;
+}
+
+.table-view .column-header, .table-view .column-header-background {
+    -fx-background-color: #d9cdb9;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4b3b2b;
+    -fx-border-color: #b3a58a;
+    -fx-border-width: 0 0 1.5px 0;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #4b3b2b;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-background-color: #e8dbc2;
+    -fx-text-fill: #4b3b2b;
+}
+
+/* ScrollPane invisibile */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* Icona SVG */
+.font-icon {
+    -fx-fill: #5a4d3b;
+    -fx-cursor: hand;
+}
+
+/* Tooltip (opzionale elegante) */
+.tooltip {
+    -fx-background-color: #f5e8d0;
+    -fx-text-fill: #4b3b2b;
+    -fx-font-size: 13px;
+    -fx-padding: 6px 10px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
