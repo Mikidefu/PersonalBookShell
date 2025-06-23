@@ -92,7 +92,7 @@ link to the appMobile repo: https://github.com/Mikidefu/isbn_reader/tree/main/is
 and replace the value of the BackendUrl variable with the Ngrok URL, for example:
 
 
-    const String BackendUrl = "https://random-id.ngrok.io";
+    const String BackendUrl = "https://random-id.ngrok.io/books";
 Save the file.
 
 ### 5. Run the Flutter Mobile App
