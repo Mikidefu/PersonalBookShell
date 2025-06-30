@@ -1,5 +1,8 @@
 package com.michele.bookcollection.gui;
 
+import com.michele.bookcollection.builder.ConcreteLibroBuilder;
+import com.michele.bookcollection.builder.BuilderIF;
+import com.michele.bookcollection.builder.LibroDirector;
 import com.michele.bookcollection.model.Libro;
 import com.michele.bookcollection.model.StatoLettura;
 import com.michele.bookcollection.service.LibroService;
@@ -32,6 +35,10 @@ public class LibroFormController {
 
     private List<String> autoriLista = new ArrayList<>();
     private List<String> generiLista = new ArrayList<>();
+
+    // Builder & Director
+    private final BuilderIF builder = new ConcreteLibroBuilder();
+    private final LibroDirector director = new LibroDirector(builder);
 
     public void setLibroService(LibroService service) {
         this.libroService = service;
@@ -114,6 +121,7 @@ public class LibroFormController {
 
     @FXML
     private void handleSalva() {
+        // validazioni
         if (titoloField.getText().isEmpty()) {
             showAlert(AlertType.ERROR, "Il titolo è obbligatorio.");
             return;
@@ -137,20 +145,28 @@ public class LibroFormController {
 
         try {
             if (libroEsistente == null) {
-                libroService.aggiungiLibro(new Libro(
-                        titoloField.getText(), autoriLista,
-                        isbnField.getText(), generiLista,
+                // usa il director per costruire il nuovo libro
+                Libro nuovo = director.build(
+                        titoloField.getText(),
+                        new ArrayList<>(autoriLista),
+                        isbnField.getText(),
+                        new ArrayList<>(generiLista),
                         valutazioneSpinner.getValue(),
                         statoLetturaComboBox.getValue()
-                ));
+                );
+                libroService.aggiungiLibro(nuovo);
+
             } else {
-                libroEsistente.setTitolo(titoloField.getText());
-                libroEsistente.setISBN(isbnField.getText());
-                libroEsistente.setAutori(autoriLista);
-                libroEsistente.setGeneri(generiLista);
-                libroEsistente.setValutazione(valutazioneSpinner.getValue());
-                libroEsistente.setStatoLettura(statoLetturaComboBox.getValue());
-                libroService.modificaLibro(libroEsistente);
+                // modifica l'esistente: ricostruisci via builder e assegna
+                Libro modificato = director.build(
+                        titoloField.getText(),
+                        new ArrayList<>(autoriLista),
+                        libroEsistente.getISBN(), // ISBN non modificabile
+                        new ArrayList<>(generiLista),
+                        valutazioneSpinner.getValue(),
+                        statoLetturaComboBox.getValue()
+                );
+                libroService.modificaLibro(modificato);
             }
             dialogStage.close();
         } catch (IllegalArgumentException e) {

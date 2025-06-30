@@ -3,14 +3,14 @@ package com.michele.bookcollection.model;
 import java.util.List;
 
 // Qui NON usiamo JavaFX Property: solo tipi “plain” (String, int, List<String>, enum)
-public class LibroDTO {
+public class LibroDTO implements LibroIF {
 
     private String titolo;
     private List<String> autori;
     private String isbn;
     private List<String> generi;
     private int valutazione;
-    private String statoLettura;
+    private static String statoLettura;
 
     public LibroDTO(String titolo,
                     List<String> autori,
@@ -38,13 +38,17 @@ public class LibroDTO {
     public List<String> getAutori() {
         return autori;
     }
+
+    @Override
+    public String getISBN() {
+        return isbn;
+    }
+
     public void setAutori(List<String> autori) {
         this.autori = autori;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
@@ -63,17 +67,19 @@ public class LibroDTO {
         this.valutazione = valutazione;
     }
 
-    public String getStatoLettura() {
+    public String getStatoLetturaString() {
         return statoLettura;
     }
+
     public void setStatoLettura(String statoLettura) {
         this.statoLettura = statoLettura;
     }
 
-    public static StatoLettura getStatoLetturaEnum(String stato) {
-        if (stato == null) return StatoLettura.DA_LEGGERE;
+    public StatoLettura getStatoLettura() {
+
+        if (statoLettura == null) return StatoLettura.DA_LEGGERE;
         try {
-            return StatoLettura.valueOf(stato.toUpperCase());
+            return StatoLettura.valueOf(statoLettura.toUpperCase());
         } catch (IllegalArgumentException e) {
             return null;
         }

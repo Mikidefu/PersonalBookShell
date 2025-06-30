@@ -3,9 +3,11 @@ package com.michele.bookcollection.spark;
 import static spark.Spark.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.michele.bookcollection.db.ConnectionManagerSingleton;
 import com.michele.bookcollection.model.Libro;
 import com.michele.bookcollection.model.LibroDTO;
 import com.michele.bookcollection.model.StatoLettura;
+import com.michele.bookcollection.assembler.LibroAssembler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,11 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookServer {
-
-    private static final String DB_URL      = "jdbc:postgresql://localhost:5432/DatabaseLibri";
-    private static final String DB_USER     = "postgres";
-    private static final String DB_PASSWORD = "Miky1234";
-
     private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
@@ -39,10 +36,9 @@ public class BookServer {
 
         // POST /books - crea libro
         post("/books", (request, response) -> {
-            System.out.println("POST /books ricevuto, body: " + request.body());
             response.type("application/json");
 
-            // 1. Parsing JSON in DTO
+            // 1) Deserializzo in DTO
             LibroDTO dto;
             try {
                 dto = gson.fromJson(request.body(), LibroDTO.class);
@@ -51,26 +47,28 @@ public class BookServer {
                 return gson.toJson(new ApiResponse("bad_request", "JSON non valido"));
             }
 
-            // 2. Validazione minima
-            if (dto.getTitolo() == null || dto.getIsbn() == null) {
+            // 2) Validazioni
+            if (dto.getTitolo() == null || dto.getISBN() == null) {
                 response.status(400);
                 return gson.toJson(new ApiResponse("bad_request", "Titolo o ISBN mancanti"));
             }
 
-            // 3. Conversione in dominio
-            Libro libro = fromDTO(dto);
+            // 3) Creo l'oggetto dominio dal DTO
+            Libro libro = LibroAssembler.createDomain(dto);
 
-            // 4. Controlli
+            // 4) Default e correzioni
             if (libro.getValutazione() < 0) libro.setValutazione(0);
             if (libro.getStatoLettura() == null) libro.setStatoLettura(StatoLettura.DA_LEGGERE);
             if (libro.getAutori() == null) libro.setAutori(new ArrayList<>());
             if (libro.getGeneri() == null) libro.setGeneri(new ArrayList<>());
 
-            // 5. Salvataggio
+            // 5) Salvataggio (INSERT o UPDATE via ON CONFLICT)
             boolean saved = saveToDatabase(libro);
             if (saved) {
-                // 6. Notifica WebSocket con DTO
-                BookWebSocketHandler.notifyAllClients(gson.toJson(toDTO(libro)));
+                // 6) Notifico tutti i client via WS inviando **DTO** aggiornato
+                LibroDTO outDto = LibroAssembler.createDTO(libro);
+                BookWebSocketHandler.notifyAllClients(gson.toJson(outDto));
+
                 response.status(201);
                 return gson.toJson(new ApiResponse("saved", null));
             } else {
@@ -79,17 +77,16 @@ public class BookServer {
             }
         });
 
-        // GET /books - restituisce lista di tutti i libri come DTO
         get("/books", (req, res) -> {
             res.type("application/json");
             List<Libro> libri = getAllBooks();
+            // map Domain → DTO
             List<LibroDTO> dtos = libri.stream()
-                    .map(BookServer::toDTO)
+                    .map(LibroAssembler::createDTO)
                     .collect(Collectors.toList());
             return gson.toJson(dtos);
         });
 
-        // GET /books/:isbn - restituisce un libro per isbn come DTO
         get("/books/:isbn", (req, res) -> {
             res.type("application/json");
             Libro libro = getBookByISBN(req.params("isbn"));
@@ -97,14 +94,13 @@ public class BookServer {
                 res.status(404);
                 return gson.toJson(new ApiResponse("not_found", "Libro non trovato"));
             }
-            return gson.toJson(toDTO(libro));
+            LibroDTO dto = LibroAssembler.createDTO(libro);
+            return gson.toJson(dto);
         });
 
-        // DELETE /books/:isbn - cancella un libro per isbn
         delete("/books/:isbn", (req, res) -> {
             res.type("application/json");
-            String isbn = req.params("isbn");
-            boolean deleted = deleteBookByISBN(isbn);
+            boolean deleted = deleteBookByISBN(req.params("isbn"));
             if (deleted) {
                 return gson.toJson(new ApiResponse("deleted", null));
             } else {
@@ -126,7 +122,7 @@ public class BookServer {
                 "ON CONFLICT (isbn) DO UPDATE SET titolo = EXCLUDED.titolo, autori = EXCLUDED.autori, " +
                 "generi = EXCLUDED.generi, valutazione = EXCLUDED.valutazione, stato_lettura = EXCLUDED.stato_lettura";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (Connection conn = ConnectionManagerSingleton.INSTANCE.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, libro.getISBN());
@@ -150,7 +146,7 @@ public class BookServer {
     private static List<Libro> getAllBooks() {
         List<Libro> libri = new ArrayList<>();
         String sql = "SELECT isbn, titolo, autori, generi, valutazione, stato_lettura FROM libri";
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (Connection conn = ConnectionManagerSingleton.INSTANCE.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -179,7 +175,7 @@ public class BookServer {
 
     private static Libro getBookByISBN(String isbn) {
         String sql = "SELECT isbn, titolo, autori, generi, valutazione, stato_lettura FROM libri WHERE isbn = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (Connection conn = ConnectionManagerSingleton.INSTANCE.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, isbn);
@@ -209,7 +205,7 @@ public class BookServer {
 
     private static boolean deleteBookByISBN(String isbn) {
         String sql = "DELETE FROM libri WHERE isbn = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (Connection conn = ConnectionManagerSingleton.INSTANCE.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, isbn);
@@ -222,33 +218,6 @@ public class BookServer {
         }
     }
 
-    // ————————————————
-    // Conversioni dominio ↔ DTO
-    // ————————————————
-
-    private static LibroDTO toDTO(Libro libro) {
-        if (libro == null) return null;
-        return new LibroDTO(
-                libro.getTitolo(),
-                libro.getAutori(),
-                libro.getISBN(),
-                libro.getGeneri(),
-                libro.getValutazione(),
-                libro.getStatoLettura().name()
-        );
-    }
-
-    private static Libro fromDTO(LibroDTO dto) {
-        if (dto == null) return null;
-        return new Libro(
-                dto.getTitolo(),
-                dto.getAutori(),
-                dto.getIsbn(),
-                dto.getGeneri(),
-                dto.getValutazione(),
-                LibroDTO.getStatoLetturaEnum(dto.getStatoLettura())
-        );
-    }
 
     // Classe per risposta JSON semplice
     static class ApiResponse {

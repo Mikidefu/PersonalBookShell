@@ -1,7 +1,10 @@
 package com.michele.bookcollection.gui;
 
+import com.michele.bookcollection.factory.PostgresRepositoryFactory;
+import com.michele.bookcollection.factory.RepositoryFactory;
 import com.michele.bookcollection.model.Libro;
 import com.michele.bookcollection.model.StatoLettura;
+import com.michele.bookcollection.repository.LibroRepository;
 import com.michele.bookcollection.service.LibroService;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -55,7 +58,10 @@ public class MainViewController {
 
     @FXML
     public void initialize() {
-        libroService = new LibroService(new com.michele.bookcollection.repository.LibroRepositoryPostgres());
+        // --- Usa il Factory Method per ottenere la Repository ---
+        RepositoryFactory factory = new PostgresRepositoryFactory();
+        LibroRepository repo = factory.operation();
+        libroService = new LibroService(repo);
 
         // 1) Carico i dati in un ObservableList semplice
         libriData = FXCollections.observableArrayList(libroService.getLibri());
@@ -73,6 +79,7 @@ public class MainViewController {
         tabellaLibri.setItems(sortedData);
 
         // ---------- Configurazione colonne ----------
+        // ---------- Configurazione colonne ----------
         colTitolo.setCellValueFactory(c -> c.getValue().titoloProperty());
         colAutore.setCellValueFactory(c -> new SimpleStringProperty(
                 String.join(", ", c.getValue().getAutori())
@@ -85,6 +92,8 @@ public class MainViewController {
         colStatoLettura.setCellValueFactory(c -> new SimpleStringProperty(
                 c.getValue().getStatoLettura().toString()
         ));
+
+
 
         // Comparatori custom
         colTitolo.setComparator(String.CASE_INSENSITIVE_ORDER);
@@ -149,11 +158,11 @@ public class MainViewController {
             }
         }, 15, 15, TimeUnit.MINUTES);
         inizializzaWebSocket();
-
     }
 
+
     // ------------------------------------------
-    // METODI DI MODIFICA/ELIMINA/AGGIUNGI (RESTANO UGUALI)
+    // METODI DI MODIFICA/ELIMINA/AGGIUNGI
     // ------------------------------------------
 
     @FXML

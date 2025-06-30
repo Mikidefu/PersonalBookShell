@@ -7,6 +7,8 @@ import com.michele.bookcollection.model.Libro;
 import com.michele.bookcollection.model.LibroDTO;
 import com.michele.bookcollection.model.StatoLettura;
 import com.michele.bookcollection.repository.LibroRepository;
+import com.michele.bookcollection.assembler.LibroAssembler;
+
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -79,14 +81,7 @@ public class LibroService {
     public void esportaInJson(File file, List<Libro> libri) throws IOException {
         // 1) Trasformiamo ogni Libro in LibroDTO
         List<LibroDTO> dtos = libri.stream()
-                .map(l -> new LibroDTO(
-                        l.getTitolo(),
-                        l.getAutori(),
-                        l.getISBN(),
-                        l.getGeneri(),
-                        l.getValutazione(),
-                        l.getStatoLettura().toString()
-                ))
+                .map(LibroAssembler::createDTO)
                 .collect(Collectors.toList());
 
         // 2) Serializziamo la lista di DTO con Gson
@@ -107,47 +102,36 @@ public class LibroService {
      * @throws IOException Se la lettura/parsing fallisce.
      */
     public void importaDaJson(File file) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
 
-        // 1) Carica la lista di DTO da file
+        // 1) Deserializza in lista di DTO
         Type typeListaDto = new TypeToken<List<LibroDTO>>() {}.getType();
         List<LibroDTO> listaDto;
         try (FileReader reader = new FileReader(file)) {
             listaDto = gson.fromJson(reader, typeListaDto);
         }
 
-        // 2) Trasforma ogni DTO in un oggetto Libro e aggiungi se non duplicato
+        // 2) Per ciascun DTO: se esiste già un libro con stesso ISBN → update, altrimenti create
         for (LibroDTO dto : listaDto) {
-            String isbnDto = dto.getIsbn();
-            // Controllo duplicati basato su ISBN
-            boolean giaPresente = repo.getTuttiLibri().stream()
-                    .anyMatch(l -> isbnDto.equalsIgnoreCase(l.getISBN()));
-            if (giaPresente) {
-                // Salta: un libro con questo ISBN è già in libreria
-                continue;
+            String isbnDto = dto.getISBN();  // nel DTO è getIsbn()
+
+            // Cerchiamo nel repository un eventuale dominio già esistente
+            Libro esistente = repo.getTuttiLibri().stream()
+                    .filter(l -> isbnDto.equalsIgnoreCase(l.getISBN()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (esistente != null) {
+                // → aggiornamento: DTO → DomainObject esistente
+                LibroAssembler.updateDomain(dto, esistente);
+                repo.aggiornaLibro(esistente);
+            } else {
+                // → creazione di un nuovo dominio dal DTO
+                Libro nuovo = LibroAssembler.createDomain(dto);
+                repo.salvaLibro(nuovo);
             }
-
-            // Costruisci il nuovo Libro
-            // Converti lo stato di lettura (string) a enum
-            StatoLettura stato;
-            try {
-                stato = StatoLettura.valueOf(dto.getStatoLettura());
-            } catch (Exception e) {
-                // Se il valore non corrisponde a un enum valido, puoi impostare un default
-                stato = StatoLettura.DA_LEGGERE;
-            }
-
-            // Crea l’oggetto Libro
-            Libro nuovo = new Libro(
-                    dto.getTitolo(),
-                    dto.getAutori(),
-                    dto.getIsbn(),
-                    dto.getGeneri(),
-                    dto.getValutazione(),
-                    stato
-            );
-
-            repo.salvaLibro(nuovo);
         }
     }
 
