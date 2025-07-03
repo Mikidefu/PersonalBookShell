@@ -8,6 +8,7 @@ import com.michele.bookcollection.model.LibroDTO;
 import com.michele.bookcollection.model.StatoLettura;
 import com.michele.bookcollection.repository.LibroRepository;
 import com.michele.bookcollection.assembler.LibroAssembler;
+import com.michele.bookcollection.service.strategy.OrdinamentoStrategy;
 
 
 import java.io.*;
@@ -59,16 +60,14 @@ public class LibroService {
                 .collect(Collectors.toList());
     }
 
-    public List<Libro> ordina(String campo, boolean crescente) {
-        Comparator<Libro> cmp;
-        switch (campo.toLowerCase()) {
-            case "titolo": cmp = Comparator.comparing(Libro::getTitolo, String.CASE_INSENSITIVE_ORDER); break;
-            case "autore": cmp = Comparator.comparing(l -> String.join(", ", l.getAutori()), String.CASE_INSENSITIVE_ORDER); break;
-            case "valutazione": cmp = Comparator.comparingInt(Libro::getValutazione); break;
-            default: throw new IllegalArgumentException("Campo di ordinamento non valido: " + campo);
-        }
-        if (!crescente) cmp = cmp.reversed();
-        return repo.getTuttiLibri().stream().sorted(cmp).collect(Collectors.toList());
+    /**
+     * ORDINAMENTO VIA STRATEGY
+     * @param strat la strategia di ordinamento scelta
+     * @return lista dei libri ordinata secondo strat
+     */
+    public List<Libro> ordina(OrdinamentoStrategy strat) {
+        // prendi TUTTI i libri dal repo e lascia che la strategy li ordini
+        return strat.ordina(repo.getTuttiLibri());
     }
 
     public Optional<Libro> cercaPerISBN(String isbn) {

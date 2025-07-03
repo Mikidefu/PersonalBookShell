@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.michele.bookcollection.gui.MainViewController"
             stylesheets="@../css/Styles.css">
 
@@ -64,7 +64,13 @@
                     </MenuItem>
                 </Menu>
             </MenuBar>
-
+            <HBox spacing="5">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Button fx:id="undoButton" text="← Undo" onAction="#onUndo"/>
+                <Button fx:id="redoButton"  text="Redo →" onAction="#onRedo"/>
+            </HBox>
             <!-- Filtri -->
             <HBox spacing="10">
                 <padding>
@@ -87,7 +93,11 @@
                         snapToTicks="true" showTickLabels="true" showTickMarks="true"
                         blockIncrement="1"/>
             </HBox>
+            <Label text="Ordina per:"/>
+            <ComboBox fx:id="sortStrategyCombo" prefWidth="150"/>
         </VBox>
+
+
     </top>
 
     <!-- Tabella centrale -->

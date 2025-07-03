@@ -26,6 +26,17 @@ public class Libro {
         this.statoLettura.set(statoLettura);
     }
 
+    public Libro(Libro other) {
+        this(
+                other.getTitolo(),
+                List.copyOf(other.getAutori()),
+                other.getISBN(),
+                List.copyOf(other.getGeneri()),
+                other.getValutazione(),
+                other.getStatoLettura()
+        );
+    }
+
     @JsonIgnore public StringProperty titoloProperty() { return titolo; }
     public String getTitolo() { return titolo.get(); }
     public void setTitolo(String titolo) { this.titolo.set(titolo); }
