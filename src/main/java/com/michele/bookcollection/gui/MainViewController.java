@@ -79,7 +79,6 @@ public class MainViewController {
 
     @FXML
     public void initialize() {
-        // --- inizializza service via FactoryMethod già fatto sopra …
         RepositoryFactory factory = new PostgresRepositoryFactory();
         libroService = new LibroService(factory.operation());
 
@@ -133,7 +132,7 @@ public class MainViewController {
                 c.getValue().getStatoLettura().toString()
         ));
 
-        // Comparatori custom (restano se ti servono nelle operazioni su report)
+        // Comparatori custom
         colTitolo.setComparator(String.CASE_INSENSITIVE_ORDER);
         colISBN.setComparator(String.CASE_INSENSITIVE_ORDER);
         colGeneri.setComparator((g1, g2) -> {
@@ -166,7 +165,7 @@ public class MainViewController {
         filterValutazioneMin.setShowTickLabels(true);
         filterValutazioneMin.setShowTickMarks(false);
 
-        // ad ogni cambio di filtro → aggiorno la tabella (senza SortedList)
+        // ad ogni cambio di filtro → aggiorno la tabella
         searchField.textProperty().addListener((obs,o,n)-> aggiornaFiltro());
         filterGenere.valueProperty().addListener((obs,o,n)-> aggiornaFiltro());
         filterStatoLettura.valueProperty().addListener((obs,o,n)-> aggiornaFiltro());
@@ -183,7 +182,7 @@ public class MainViewController {
         }, 15, 15, TimeUnit.MINUTES);
         inizializzaWebSocket();
 
-        // ——— SETUP STRATEGY DI ORDINAMENTO ——————————————————
+        // ——— SETUP STRATEGY DI ORDINAMENTO —————
         // 1) Preparo le varie strategie disponibili
         List<OrdinamentoStrategy> strategies = List.of(
                 new OrdinamentoPerTitolo(true),
@@ -545,7 +544,7 @@ public class MainViewController {
     }
 
     // ------------------------------------------
-    // NUOVI METODI BACKUP MANUALE
+    // METODI BACKUP MANUALE
     // ------------------------------------------
 
     @FXML
@@ -593,8 +592,6 @@ public class MainViewController {
     @FXML
     private void onApriStatistiche() {
         try {
-            // Rimuovi o aggiusta la leading slash:
-            // se in resources/gui, prova con "/gui/StatisticheView.fxml"
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/gui/StatsView.fxml")
             );

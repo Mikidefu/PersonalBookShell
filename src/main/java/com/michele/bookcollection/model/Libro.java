@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class Libro {
+public class Libro implements LibroIF {
     @Expose private final StringProperty titolo = new SimpleStringProperty();
     @Expose private final ListProperty<String> autori = new SimpleListProperty<>(FXCollections.observableArrayList());
     @Expose private final StringProperty isbn = new SimpleStringProperty();

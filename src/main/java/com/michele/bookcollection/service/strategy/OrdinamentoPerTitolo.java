@@ -10,7 +10,7 @@ public class OrdinamentoPerTitolo implements OrdinamentoStrategy {
     private final boolean crescente;
 
     /**
-     * @param crescente true se vogliamo in ordine alfabetico A→Z, false per Z→A
+     * @param crescente true se voglio in ordine alfabetico A→Z, false per Z→A
      */
     public OrdinamentoPerTitolo(boolean crescente) {
         this.crescente = crescente;

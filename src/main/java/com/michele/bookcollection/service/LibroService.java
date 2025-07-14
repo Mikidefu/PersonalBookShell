@@ -66,7 +66,7 @@ public class LibroService {
      * @return lista dei libri ordinata secondo strat
      */
     public List<Libro> ordina(OrdinamentoStrategy strat) {
-        // prendi TUTTI i libri dal repo e lascia che la strategy li ordini
+        // prendo TUTTI i libri dal repo e lascio che la strategy li ordini
         return strat.ordina(repo.getTuttiLibri());
     }
 
@@ -78,12 +78,12 @@ public class LibroService {
     }
 
     public void esportaInJson(File file, List<Libro> libri) throws IOException {
-        // 1) Trasformiamo ogni Libro in LibroDTO
+        // 1) Trasformo ogni Libro in LibroDTO
         List<LibroDTO> dtos = libri.stream()
                 .map(LibroAssembler::createDTO)
                 .collect(Collectors.toList());
 
-        // 2) Serializziamo la lista di DTO con Gson
+        // 2) Serializzo la lista di DTO con Gson
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
@@ -116,7 +116,7 @@ public class LibroService {
         for (LibroDTO dto : listaDto) {
             String isbnDto = dto.getISBN();  // nel DTO è getIsbn()
 
-            // Cerchiamo nel repository un eventuale dominio già esistente
+            // Cerco nel repository un eventuale dominio già esistente
             Libro esistente = repo.getTuttiLibri().stream()
                     .filter(l -> isbnDto.equalsIgnoreCase(l.getISBN()))
                     .findFirst()
@@ -135,17 +135,17 @@ public class LibroService {
     }
 
     public void backupJsonAutomatico() throws IOException {
-        // Creiamo la cartella “backup” se non esiste
+        // Creo la cartella “backup” se non esiste
         File backupDir = new File("backup");
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
 
-        // Costruiamo un nome file con data/ora: es. backup_2025-06-03_14-30-00.json
+        // Costruisco un nome file con data/ora: es. backup_2025-06-03_14-30-00.json
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         File dest = new File(backupDir, "backup_" + timestamp + ".json");
 
-        // Chiamiamo internamente il metodo di esportazione
+        // Chiamo internamente il metodo di esportazione
         List<Libro> tutti = getLibri(); // recupera la lista attuale
         esportaInJson(dest, tutti);
     }
@@ -209,19 +209,19 @@ public class LibroService {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(file), StandardCharsets.UTF_8))) {
 
-            // 1) Leggiamo e scarttiamo la riga di intestazione
+            // 1) Leggo e scarto la riga di intestazione
             String header = reader.readLine();
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // 2) split su virgola (usiamo split(",", -1) per non perdere campi vuoti)
+                // 2) split su virgola (uso split(",", -1) per non perdere campi vuoti)
                 String[] parts = line.split(",", -1);
                 if (parts.length < 6) {
                     // Riga malformata: salta
                     continue;
                 }
 
-                // 3) Ripuliamo (unescape) ogni campo
+                // 3) Ripulisco (unescape) ogni campo
                 String titolo = unescapeCSV(parts[0]);
                 List<String> autori = List.of(unescapeCSV(parts[1]).split(";"));
                 String isbn = unescapeCSV(parts[2]);
@@ -240,14 +240,14 @@ public class LibroService {
                     stato = StatoLettura.DA_LEGGERE;
                 }
 
-                // 4) Controlliamo duplicato in repo (ISBN)
+                // 4) Controllo duplicato in repo (ISBN)
                 boolean giaPresente = repo.getTuttiLibri().stream()
                         .anyMatch(l -> l.getISBN().equalsIgnoreCase(isbn));
                 if (giaPresente) {
                     continue;
                 }
 
-                // 5) Creiamo e salviamo il nuovo Libro
+                // 5) Creo e salvo il nuovo Libro
                 Libro nuovo = new Libro(
                         titolo,
                         autori,

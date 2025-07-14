@@ -41,10 +41,10 @@ class OrdinamentoStrategyAllTest {
         var asc  = new OrdinamentoPerAutore(true).ordina(sample);
         var desc = new OrdinamentoPerAutore(false).ordina(sample);
 
-        // i primi autori: "Alice","Bob","Charlie"
-        assertEquals("Gamma", asc.get(0).getTitolo());     // Alice...
-        assertEquals("Beta",  asc.get(1).getTitolo());     // Bob,Charlie
-        assertEquals("Alpha", asc.get(2).getTitolo());     // Charlie
+        // i primi autori
+        assertEquals("Gamma", asc.get(0).getTitolo());
+        assertEquals("Beta",  asc.get(1).getTitolo());
+        assertEquals("Alpha", asc.get(2).getTitolo());
 
         assertEquals("Alpha", desc.get(0).getTitolo());
         assertEquals("Beta",  desc.get(1).getTitolo());
@@ -53,16 +53,16 @@ class OrdinamentoStrategyAllTest {
 
     @Test
     void ordinamentoPerGenere() {
-        // primi generi: Fantasy, Horror, SciFi
+        // primi generi
         var asc  = new OrdinamentoPerGenere(true).ordina(sample);
         var desc = new OrdinamentoPerGenere(false).ordina(sample);
 
-        // ascending: Fantasy group (Gamma, Beta) poi SciFi (Alpha)
+        // ascending
         assertEquals("Gamma", asc.get(0).getTitolo());
         assertEquals("Beta",  asc.get(1).getTitolo());
         assertEquals("Alpha", asc.get(2).getTitolo());
 
-        // descending: SciFi (Alpha), poi Fantasy group reversed stably (Gamma, Beta)
+        // descending
         assertEquals("Alpha", desc.get(0).getTitolo());
         assertEquals("Gamma", desc.get(1).getTitolo());
         assertEquals("Beta",  desc.get(2).getTitolo());

@@ -56,7 +56,6 @@ class MementoTest {
         // 2) Istanzio il service con la repo in‑memory
         LibroService service = new LibroService(inMemoryRepo);
 
-        // 3) Ora il tuo Originator prende il service
         originator = new LibraryOriginator(service);
         caretaker  = new LibraryCaretaker(originator);
     }

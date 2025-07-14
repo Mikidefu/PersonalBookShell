@@ -11,7 +11,7 @@ public class OrdinamentoPerAutore implements OrdinamentoStrategy {
     private final boolean crescente;
 
     /**
-     * @param crescente true se vogliamo in ordine alfabetico A→Z, false per Z→A
+     * @param crescente true se voglio in ordine alfabetico A→Z, false per Z→A
      */
     public OrdinamentoPerAutore(boolean crescente) {
         this.crescente = crescente;

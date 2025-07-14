@@ -132,7 +132,7 @@ public class StatisticheViewController {
         public long getCount() { return count; }
     }
 
-    // NUOVA classe helper per Autore
+    //classe helper per Autore
     public static class AutoreCount {
         private final String autore;
         private final long count;
